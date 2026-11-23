@@ -7,6 +7,7 @@ import org.example.config.Inicializador;
 import org.example.dao.RefugioDAO;
 import org.example.modelo.Refugio;
 import org.example.util.Consola;
+import org.example.vista.MenuAnimales;
 import org.example.vista.MenuRefugio;
 
 /**
@@ -56,7 +57,7 @@ public class App {
             int opcion = Consola.leerEntero("Opción: ", 0, 6);
             try {
                 switch (opcion) {
-                    case 1 -> enConstruccion("Animales");
+                    case 1 -> new MenuAnimales().mostrar();
                     case 2 -> enConstruccion("Adoptantes");
                     case 3 -> enConstruccion("Adopciones");
                     case 4 -> new MenuRefugio().mostrar();

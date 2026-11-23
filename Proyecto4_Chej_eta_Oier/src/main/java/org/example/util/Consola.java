@@ -86,6 +86,37 @@ public final class Consola {
         }
     }
 
+    public static int leerEnteroOpcional(String mensaje, int valorActual, int minimo, int maximo) {
+        while (true) {
+            String valor = leerLinea(mensaje + " [" + valorActual + "]: ");
+            if (valor.isEmpty()) {
+                return valorActual;
+            }
+            try {
+                int numero = Integer.parseInt(valor);
+                if (numero >= minimo && numero <= maximo) {
+                    return numero;
+                }
+                error("El número debe estar entre " + minimo + " y " + maximo + ".");
+            } catch (NumberFormatException e) {
+                error("'" + valor + "' no es un número válido.");
+            }
+        }
+    }
+
+    /** Muestra las opciones numeradas y devuelve la elegida. Si actual != null, 0 la mantiene. */
+    public static <E> E elegir(String mensaje, E[] opciones, E actual) {
+        info(mensaje);
+        for (int i = 0; i < opciones.length; i++) {
+            info("  " + (i + 1) + ". " + opciones[i]);
+        }
+        if (actual != null) {
+            info("  0. Mantener [" + actual + "]");
+        }
+        int opcion = leerEntero("Opción: ", actual == null ? 1 : 0, opciones.length);
+        return opcion == 0 ? actual : opciones[opcion - 1];
+    }
+
     /** Lee una fecha con formato dd/MM/yyyy. */
     public static LocalDate leerFecha(String mensaje) {
         while (true) {
