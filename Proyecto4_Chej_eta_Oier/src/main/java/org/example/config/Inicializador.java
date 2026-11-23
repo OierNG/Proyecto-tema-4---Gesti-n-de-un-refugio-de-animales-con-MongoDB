@@ -12,16 +12,7 @@ import org.example.modelo.Refugio;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-/**
- * Prepara la base de datos al arrancar la aplicación.
- *
- * - Crea las colecciones (si no existen) mediante sus índices.
- * - Asegura los índices que usan las búsquedas.
- * - Crea el documento del refugio la primera vez.
- *
- * La operación es idempotente: se puede ejecutar en cada arranque sin efectos
- * secundarios.
- */
+/** Se ejecuta en cada arranque: crea colecciones e índices (si no existen) y el refugio por defecto. */
 public final class Inicializador {
 
     private static final String COL_ANIMALES = "animales";

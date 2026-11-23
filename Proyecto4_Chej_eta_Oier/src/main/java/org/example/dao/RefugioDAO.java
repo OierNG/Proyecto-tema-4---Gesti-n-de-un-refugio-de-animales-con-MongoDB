@@ -9,12 +9,7 @@ import org.example.util.Fechas;
 
 import static com.mongodb.client.model.Filters.eq;
 
-/**
- * Acceso a la colección "refugio".
- *
- * Sólo hay un documento de configuración con los datos del refugio, por eso
- * se identifica siempre con _id = "refugio".
- */
+/** La colección "refugio" tiene un único documento, siempre con _id = "refugio". */
 public class RefugioDAO {
 
     private static final String COLECCION = "refugio";
@@ -24,18 +19,16 @@ public class RefugioDAO {
         return Conexion.bd().getCollection(COLECCION);
     }
 
-    /** Devuelve los datos del refugio o null si todavía no existen. */
     public Refugio obtener() {
         Document documento = coleccion().find(eq("_id", ID)).first();
         return documento == null ? null : aRefugio(documento);
     }
 
-    /** Guarda (crea o reemplaza) los datos del refugio. */
+    /** upsert: crea el documento si no existe o lo reemplaza si ya existe. */
     public void guardar(Refugio refugio) {
         coleccion().replaceOne(eq("_id", ID), aDocumento(refugio), new ReplaceOptions().upsert(true));
     }
 
-    /** Refugio -> Document (mapeo manual, sin ODM). */
     public static Document aDocumento(Refugio refugio) {
         return new Document("_id", ID)
                 .append("nombre", refugio.getNombre())
@@ -46,7 +39,6 @@ public class RefugioDAO {
                 .append("fechaApertura", Fechas.aDate(refugio.getFechaApertura()));
     }
 
-    /** Document -> Refugio. */
     public static Refugio aRefugio(Document documento) {
         return new Refugio(
                 documento.getString("nombre"),

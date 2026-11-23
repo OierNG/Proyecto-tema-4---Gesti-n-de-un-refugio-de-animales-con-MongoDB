@@ -16,10 +16,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.ne;
 
-/**
- * Operaciones CRUD comunes a todas las colecciones.
- * Cada DAO hijo solo define cómo se convierte su clase a Document y viceversa.
- */
+/** CRUD común a todas las colecciones. Cada DAO hijo solo define la conversión objeto <-> Document. */
 public abstract class BaseDAO<T> {
 
     protected static final Bson NO_ELIMINADO = ne("eliminado", true);
@@ -70,6 +67,11 @@ public abstract class BaseDAO<T> {
 
     public void eliminar(Object id) {
         coleccion().deleteOne(eq("_id", id));
+    }
+
+    /** Comprueba si algún documento de otra colección apunta a este id (referencia). */
+    protected boolean estaReferenciado(String otraColeccion, String campo, Object id) {
+        return Conexion.bd().getCollection(otraColeccion).countDocuments(eq(campo, id)) > 0;
     }
 
     /** Id numérico autoincremental guardado en la colección "contadores". */

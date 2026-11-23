@@ -5,12 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-/**
- * Utilidades de entrada/salida por consola.
- *
- * Centraliza la lectura de datos para que todos los menús validen igual:
- * ningún dato incorrecto del usuario debe provocar una excepción.
- */
+/** Entrada/salida por consola. Todas las lecturas validan, así ningún dato erróneo lanza excepción. */
 public final class Consola {
 
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -43,7 +38,6 @@ public final class Consola {
         System.out.println("[ERROR] " + texto);
     }
 
-    /** Espera a que el usuario pulse ENTER. */
     public static void pausa() {
         System.out.print("Pulsa ENTER para continuar...");
         if (SCANNER.hasNextLine()) {
@@ -51,7 +45,6 @@ public final class Consola {
         }
     }
 
-    /** Lee un texto obligatorio (no admite vacío). */
     public static String leerTexto(String mensaje) {
         while (true) {
             String valor = leerLinea(mensaje);
@@ -62,12 +55,31 @@ public final class Consola {
         }
     }
 
-    /**
-     * Lee un texto opcional. Si el usuario pulsa ENTER se mantiene el valor actual.
-     */
+    /** Texto obligatorio que además debe cumplir una expresión regular (DNI, email...). */
+    public static String leerTexto(String mensaje, String formato, String errorFormato) {
+        while (true) {
+            String valor = leerTexto(mensaje);
+            if (valor.matches(formato)) {
+                return valor;
+            }
+            error(errorFormato);
+        }
+    }
+
+    /** Los métodos "Opcional" mantienen el valor actual si el usuario pulsa ENTER. */
     public static String leerTextoOpcional(String mensaje, String valorActual) {
         String valor = leerLinea(mensaje + " [" + (valorActual == null ? "" : valorActual) + "]: ");
         return valor.isEmpty() ? valorActual : valor;
+    }
+
+    public static String leerTextoOpcional(String mensaje, String valorActual, String formato, String errorFormato) {
+        while (true) {
+            String valor = leerTextoOpcional(mensaje, valorActual);
+            if (valor != null && valor.matches(formato)) {
+                return valor;
+            }
+            error(errorFormato);
+        }
     }
 
     public static int leerEntero(String mensaje, int minimo, int maximo) {
@@ -117,7 +129,6 @@ public final class Consola {
         return opcion == 0 ? actual : opciones[opcion - 1];
     }
 
-    /** Lee una fecha con formato dd/MM/yyyy. */
     public static LocalDate leerFecha(String mensaje) {
         while (true) {
             String valor = leerLinea(mensaje);
@@ -129,9 +140,6 @@ public final class Consola {
         }
     }
 
-    /**
-     * Lee una fecha opcional: si el usuario pulsa ENTER se mantiene la fecha actual.
-     */
     public static LocalDate leerFechaOpcional(String mensaje, LocalDate fechaActual) {
         while (true) {
             String valor = leerLinea(mensaje + " [" + Consola.texto(fechaActual) + "]: ");
@@ -146,7 +154,6 @@ public final class Consola {
         }
     }
 
-    /** Pregunta de sí/no. Devuelve true si la respuesta es 's'. */
     public static boolean confirmar(String mensaje) {
         while (true) {
             String valor = leerLinea(mensaje + " (s/n): ").toLowerCase();
@@ -160,7 +167,7 @@ public final class Consola {
         }
     }
 
-    /** Convierte una fecha a texto dd/MM/yyyy (o "-" si es nula). */
+    /** Fecha a texto dd/MM/yyyy, o "-" si es nula. */
     public static String texto(LocalDate fecha) {
         return fecha == null ? "-" : fecha.format(FORMATO_FECHA);
     }

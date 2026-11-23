@@ -7,14 +7,11 @@ import org.example.config.Inicializador;
 import org.example.dao.RefugioDAO;
 import org.example.modelo.Refugio;
 import org.example.util.Consola;
+import org.example.vista.MenuAdoptantes;
 import org.example.vista.MenuAnimales;
 import org.example.vista.MenuRefugio;
 
-/**
- * Aplicación de gestión de un refugio de animales con MongoDB.
- *
- * Menú principal en consola; cada apartado tiene su propio menú y su clase DAO.
- */
+/** Punto de entrada: conecta con MongoDB y muestra el menú principal. Cada apartado tiene su Menu y su DAO. */
 public class App {
 
     public static void main(String[] args) {
@@ -34,7 +31,6 @@ public class App {
         Consola.info("Aplicación cerrada.");
     }
 
-    /** Comprueba la conexión y prepara el esquema de la base de datos. */
     private static boolean conectar() {
         try {
             Conexion.bd().runCommand(new Document("ping", 1));
@@ -49,7 +45,6 @@ public class App {
         }
     }
 
-    /** Bucle del menú principal. */
     private static void menuPrincipal() {
         boolean salir = false;
         while (!salir) {
@@ -58,7 +53,7 @@ public class App {
             try {
                 switch (opcion) {
                     case 1 -> new MenuAnimales().mostrar();
-                    case 2 -> enConstruccion("Adoptantes");
+                    case 2 -> new MenuAdoptantes().mostrar();
                     case 3 -> enConstruccion("Adopciones");
                     case 4 -> new MenuRefugio().mostrar();
                     case 5 -> enConstruccion("Exportar datos");
@@ -76,7 +71,6 @@ public class App {
         }
     }
 
-    /** Cabecera con los datos más relevantes del refugio. */
     private static void mostrarMenu() {
         Refugio refugio = new RefugioDAO().obtener();
         Consola.titulo(refugio == null ? "REFUGIO DE ANIMALES" : refugio.getNombre());

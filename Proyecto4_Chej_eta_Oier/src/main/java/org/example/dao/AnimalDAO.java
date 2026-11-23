@@ -2,7 +2,6 @@ package org.example.dao;
 
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
-import org.example.config.Conexion;
 import org.example.modelo.Animal;
 import org.example.modelo.EstadoAnimal;
 import org.example.modelo.RegistroMedico;
@@ -34,7 +33,7 @@ public class AnimalDAO extends BaseDAO<Animal> {
     }
 
     public boolean tieneAdopciones(int idAnimal) {
-        return Conexion.bd().getCollection("adopciones").countDocuments(eq("animalId", idAnimal)) > 0;
+        return estaReferenciado("adopciones", "animalId", idAnimal);
     }
 
     @Override

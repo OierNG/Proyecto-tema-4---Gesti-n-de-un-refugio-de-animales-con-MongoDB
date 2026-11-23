@@ -2,11 +2,6 @@ package org.example.modelo;
 
 import java.time.LocalDate;
 
-/**
- * Datos del refugio.
- *
- * Se guarda como un único documento dentro de la colección "refugio".
- */
 public class Refugio {
 
     private String nombre;

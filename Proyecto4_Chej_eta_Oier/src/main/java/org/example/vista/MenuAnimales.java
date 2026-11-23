@@ -131,35 +131,12 @@ public final class MenuAnimales extends Menu {
 
     private void baja() {
         Animal animal = pedirAnimal();
-        if (animal == null) {
-            return;
+        if (animal != null) {
+            baja(dao, animal.getId(), animal.getNombre(), dao.tieneAdopciones(animal.getId()));
         }
-        Consola.subtitulo("Baja de " + animal.getNombre());
-        String[] tipos = {"Marcar como eliminado (se conserva en la BBDD)", "Eliminar definitivamente"};
-        String tipo = Consola.elegir("Tipo de baja:", tipos, null);
-
-        if (tipo.equals(tipos[1]) && dao.tieneAdopciones(animal.getId())) {
-            Consola.error("El animal tiene adopciones asociadas: no se puede eliminar, solo marcar como eliminado.");
-            return;
-        }
-        if (!Consola.confirmar("¿Confirmas la baja?")) {
-            Consola.info("Operación cancelada.");
-            return;
-        }
-        if (tipo.equals(tipos[0])) {
-            dao.marcarEliminado(animal.getId());
-        } else {
-            dao.eliminar(animal.getId());
-        }
-        Consola.ok("Animal dado de baja.");
     }
 
     private Animal pedirAnimal() {
-        int id = Consola.leerEntero("ID del animal: ", 1, Integer.MAX_VALUE);
-        Animal animal = dao.buscarPorId(id);
-        if (animal == null) {
-            Consola.error("No existe ningún animal con el ID " + id + ".");
-        }
-        return animal;
+        return pedirPorId(dao, "animal");
     }
 }
