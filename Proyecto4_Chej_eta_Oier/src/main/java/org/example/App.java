@@ -10,6 +10,7 @@ import org.example.util.Consola;
 import org.example.vista.MenuAdoptantes;
 import org.example.vista.MenuAnimales;
 import org.example.vista.MenuRefugio;
+import org.example.vista.MenuAdopciones;
 
 /** Punto de entrada: conecta con MongoDB y muestra el menú principal. Cada apartado tiene su Menu y su DAO. */
 public class App {
@@ -54,7 +55,7 @@ public class App {
                 switch (opcion) {
                     case 1 -> new MenuAnimales().mostrar();
                     case 2 -> new MenuAdoptantes().mostrar();
-                    case 3 -> enConstruccion("Adopciones");
+                    case 3 -> new MenuAdopciones().mostrar();
                     case 4 -> new MenuRefugio().mostrar();
                     case 5 -> enConstruccion("Exportar datos");
                     case 6 -> enConstruccion("Metadatos");

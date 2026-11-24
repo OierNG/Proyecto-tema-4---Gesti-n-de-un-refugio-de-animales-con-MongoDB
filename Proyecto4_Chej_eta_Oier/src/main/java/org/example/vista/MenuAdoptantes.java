@@ -4,6 +4,7 @@ import org.example.dao.AdoptanteDAO;
 import org.example.modelo.Adoptante;
 import org.example.modelo.Preferencias;
 import org.example.util.Consola;
+import org.example.dao.AdopcionDAO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +25,8 @@ public final class MenuAdoptantes extends Menu {
                 "Ver ficha",
                 "Alta de adoptante",
                 "Modificar adoptante",
-                "Baja de adoptante");
+                "Baja de adoptante",
+                "Ver solicitudes y adopciones");
     }
 
     @Override
@@ -35,6 +37,7 @@ public final class MenuAdoptantes extends Menu {
             case 3 -> alta();
             case 4 -> modificar();
             case 5 -> baja();
+            case 6 -> verAdopciones();
         }
     }
 
@@ -128,5 +131,21 @@ public final class MenuAdoptantes extends Menu {
         if (a != null) {
             baja(dao, a.getId(), a.getNombreCompleto(), dao.tieneAdopciones(a.getId()));
         }
+    }
+
+    private void verAdopciones() {
+        Adoptante a = pedirPorId(dao, "adoptante");
+
+        if (a == null) {
+            return;
+        }
+
+        Consola.subtitulo(
+                "Solicitudes y adopciones de " + a.getNombreCompleto()
+        );
+
+        MenuAdopciones.imprimir(
+                new AdopcionDAO().buscarPorAdoptante(a.getId())
+        );
     }
 }

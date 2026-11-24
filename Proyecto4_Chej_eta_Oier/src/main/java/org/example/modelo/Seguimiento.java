@@ -1,0 +1,34 @@
+package org.example.modelo;
+
+import java.time.LocalDate;
+
+/** Visita o contacto tras una adopción aprobada. Se guarda embebido en un array de la adopción. */
+public class Seguimiento {
+
+    private LocalDate fecha;
+    private String descripcion;
+
+    public Seguimiento() {
+    }
+
+    public Seguimiento(LocalDate fecha, String descripcion) {
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+}
