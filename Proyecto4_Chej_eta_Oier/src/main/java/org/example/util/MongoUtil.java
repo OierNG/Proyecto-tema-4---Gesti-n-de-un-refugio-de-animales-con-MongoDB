@@ -10,8 +10,9 @@ import org.bson.Document;
 // Gestiona el MongoClient (patrón Singleton): un único cliente compartido por todos los repositorios
 public class MongoUtil {
 
-    // Si MongoDB no responde en 3 segundos se avisa en vez de esperar los 30 por defecto
-    private static final String URI = "mongodb://localhost:27017/?serverSelectionTimeoutMS=3000";
+    // Credenciales del docker-compose.yml. Si MongoDB no responde en 3 segundos se avisa en vez de esperar los 30 por defecto
+    private static final String URI =
+            "mongodb://admin:admin123@localhost:27017/?authSource=admin&serverSelectionTimeoutMS=3000";
     public static final String BASE_DATOS = "refugio";
 
     private static MongoClient cliente;
