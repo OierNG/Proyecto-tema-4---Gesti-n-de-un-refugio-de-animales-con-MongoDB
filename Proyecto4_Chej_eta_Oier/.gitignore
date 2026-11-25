@@ -35,5 +35,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### Ficheros exportados por la aplicación ###
+exportaciones/
+
 ### Mac OS ###
 .DS_Store

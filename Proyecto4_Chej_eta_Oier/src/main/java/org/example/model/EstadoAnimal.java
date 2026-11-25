@@ -1,4 +1,4 @@
-package org.example.modelo;
+package org.example.model;
 
 public enum EstadoAnimal {
     DISPONIBLE("Disponible"),

@@ -1,4 +1,4 @@
-package org.example.modelo;
+package org.example.model;
 
 public enum EstadoAdopcion {
     PENDIENTE("Pendiente"),
